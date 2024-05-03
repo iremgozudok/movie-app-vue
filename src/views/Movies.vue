@@ -1,14 +1,5 @@
 <template>
   <div>
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Search movies"
-      @keypress.enter="searchMovies"
-    />
-    <button @click="searchMovies">Search</button>
-    <button @click="clearSearch">X</button>
-
     <h1>Movies</h1>
     <div class="movie-list">
       <div
@@ -43,17 +34,6 @@ const router = useRouter()
 
 const goToMovieDetail = (id) => {
   router.push({ name: 'MovieDetail', params: { id } })
-}
-
-const search = ref('')
-
-const searchMovies = () => {
-  store.searchMovies(search, store.movies)
-  search.value = ''
-}
-
-const clearSearch = () => {
-  store.fetchMovies()
 }
 
 onMounted(() => {
