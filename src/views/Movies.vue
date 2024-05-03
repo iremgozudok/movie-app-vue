@@ -1,5 +1,14 @@
 <template>
   <div>
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Search movies"
+      @keypress.enter="searchMovies"
+    />
+    <button @click="searchMovies">Search</button>
+    <button @click="clearSearch">X</button>
+
     <h1>Movies</h1>
     <div class="movie-list">
       <div
@@ -25,7 +34,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useMoviesStore } from '@/stores/movies'
 import { useRouter } from 'vue-router'
 
@@ -36,10 +45,16 @@ const goToMovieDetail = (id) => {
   router.push({ name: 'MovieDetail', params: { id } })
 }
 
-// const searchMovies = () => {
-//   store.searchMovies(search, store.movies)
-//   search.value = ''
-// }
+const search = ref('')
+
+const searchMovies = () => {
+  store.searchMovies(search, store.movies)
+  search.value = ''
+}
+
+const clearSearch = () => {
+  store.fetchMovies()
+}
 
 onMounted(() => {
   store.fetchMovies()
