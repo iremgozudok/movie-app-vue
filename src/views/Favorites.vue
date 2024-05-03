@@ -24,6 +24,7 @@ export default defineComponent({
 <script setup>
 import { useMoviesStore } from '@/stores/movies'
 import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 
 const store = useMoviesStore()
 const router = useRouter()

@@ -28,11 +28,12 @@ export const useMoviesStore = defineStore({
     },
     removeFromFavorites(id) {
       this.favorites = this.favorites.filter((fav) => fav.id !== id)
+    },
+
+    searchMovies(search, movies) {
+      this.movies = movies.filter((movie) =>
+        movie.title.toLowerCase().includes(search.value.toLowerCase())
+      )
     }
-    // searchMovies(search, movies) {
-    //   this.movies = movies.filter((movie) =>
-    //     movie.title.toLowerCase().includes(search.value.toLowerCase())
-    //   )
-    // }
   }
 })
