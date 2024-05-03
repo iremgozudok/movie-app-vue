@@ -2,7 +2,7 @@
   <div class="bg-slate-900 min-h-screen">
     <div>
       <nav
-        class="container mx-auto px-4 py-6 flex items-center justify-between flex-wrap bg-slate-800 rounded-b-lg"
+        class="container mx-auto px-4 py-6 flex items-center justify-between flex-wrap bg-slate-800 rounded-b-md"
       >
         <router-link to="/" class="text-white font-light text-3xl">
           Vue <span class="text-base text-slate-400 font-normal">Movie </span>
