@@ -14,13 +14,20 @@ export const useMoviesStore = defineStore({
   state: () => ({
     search: '',
     movies: [],
-    favorites: []
+    favorites: [],
+    genres: []
   }),
   actions: {
     fetchMovies() {
       fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
         .then((response) => response.json())
         .then((data) => (this.movies = data.results))
+        .catch((err) => console.error(err))
+    },
+    fetchGenres() {
+      fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
+        .then((response) => response.json())
+        .then((response) => (this.genres = response.genres))
         .catch((err) => console.error(err))
     },
     addToFavorites(movie) {
