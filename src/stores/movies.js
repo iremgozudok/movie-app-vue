@@ -14,6 +14,7 @@ export const useMoviesStore = defineStore({
   state: () => ({
     search: '',
     movies: [],
+    filteredMovies: [],
     favorites: [],
     genres: []
   }),
@@ -21,25 +22,42 @@ export const useMoviesStore = defineStore({
     fetchMovies() {
       fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
         .then((response) => response.json())
-        .then((data) => (this.movies = data.results))
+        .then((data) => {
+          return (this.movies = data.results), (this.filteredMovies = data.results)
+        })
         .catch((err) => console.error(err))
     },
     fetchGenres() {
       fetch('https://api.themoviedb.org/3/genre/movie/list?language=en', options)
         .then((response) => response.json())
-        .then((response) => (this.genres = response.genres))
+        .then((response) => {
+          return (this.genres = response.genres)
+        })
         .catch((err) => console.error(err))
-    },
-    addToFavorites(movie) {
-      this.favorites.push(movie)
     },
     removeFromFavorites(id) {
       this.favorites = this.favorites.filter((fav) => fav.id !== id)
+      localStorage.setItem('favorites', JSON.stringify(this.favorites))
+    },
+    toggleFavorite(movie) {
+      let movieId = movie.id
+      if (this.favorites.some((fav) => fav.id === movieId)) {
+        this.favorites = this.favorites.filter((fav) => fav.id !== movieId)
+      } else {
+        this.favorites.push(movie)
+      }
+      localStorage.setItem('favorites', JSON.stringify(this.favorites))
     },
     searchMovies(search, movies) {
-      this.movies = movies.filter((movie) =>
-        movie.title.toLowerCase().includes(search.value.toLowerCase())
+      this.filteredMovies = movies.filter((movie) =>
+        movie.title.toLowerCase().includes(search.toLowerCase())
       )
+    },
+    getFavorites() {
+      const favorites = localStorage.getItem('favorites')
+      if (favorites) {
+        this.favorites = JSON.parse(favorites)
+      }
     }
   }
 })
