@@ -1,35 +1,35 @@
 <template>
-  <h1>Favorites</h1>
-  <div v-if="!store.favorites.length">
-    <p>Empty Favorites</p>
-    <button @click="router.push({ name: 'Movies' })">Back to Home</button>
-  </div>
-  <div class="movie-items" v-else>
-    <div class="movie" v-for="movie in store.favorites" :key="movie.id">
-      <h1>{{ movie.title }}</h1>
-      <p>{{ movie.overview }}</p>
-      <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="movie.title" />
-      <button @click="removeFromFav(movie.id)">Remove from Favorites</button>
+  <div class="container mx-auto px-2">
+    <h1 class="text-slate-200 text-3xl text-center my-5 font-semibold">Favorites</h1>
+    <div v-if="!store.favorites.length" class="text-white text-center">
+      <p>Your favorite list is empty...</p>
+      <p>
+        You can add the movies you want to watch later to your favorites list by clicking on the
+        'Add to Favorites' button.
+      </p>
+    </div>
+    <div class="movie-items" v-else>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mx-3 lg:mx-0 py-5">
+        <div v-for="movie in store.favorites" :key="movie.id">
+          <MovieCart :movie="movie" :removeFromFav="removeFromFav" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-export default defineComponent({
-  name: 'Favorites'
-})
-</script>
-
 <script setup>
-import { useMoviesStore } from '@/stores/movies'
-import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+  import MovieCart from '@/components/MovieCart.vue'
+  import { useMoviesStore } from '@/stores/movies'
+  import { useRouter } from 'vue-router'
+  import { onMounted } from 'vue'
 
-const store = useMoviesStore()
-const router = useRouter()
+  const store = useMoviesStore()
+  const router = useRouter()
 
-const removeFromFav = (id) => {
-  store.removeFromFavorites(id)
-}
+  window.document.title = 'Favorites'
+
+  const removeFromFav = (id) => {
+    store.removeFromFavorites(id)
+  }
 </script>
